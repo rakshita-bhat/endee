@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__, template_folder='frontend')
+app = Flask(__name__, template_folder='frontend', static_folder='frontend', static_url_path='')
 CORS(app)
 
 DATA = None
