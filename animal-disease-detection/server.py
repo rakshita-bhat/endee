@@ -4,14 +4,11 @@ import os
 import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
-import threading
-from werkzeug.serving import make_server
 
 load_dotenv()
 
 app = Flask(__name__, template_folder='frontend')
-app.config['TEMPLATES_AUTO_RELOAD'] = True
-CORS(app, resources={r"/predict": {"origins": "*"}})
+CORS(app)
 
 DATA = None
 MODEL = None
@@ -97,12 +94,4 @@ if __name__ == '__main__':
     print("AI Animal Disease Finder")
     print("Open http://localhost:5003")
     print("="*50)
-    server = make_server('0.0.0.0', 5003, app, threaded=True)
-    thread = threading.Thread(target=server.serve_forever)
-    thread.daemon = True
-    thread.start()
-    try:
-        import time
-        while True: time.sleep(1)
-    except KeyboardInterrupt:
-        server.shutdown()
+    app.run(host='0.0.0.0', port=5003, debug=False, use_reloader=False)
